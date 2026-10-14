@@ -1,1 +1,6 @@
-const fs=require('fs');for(const f of ['api/index.js','routes/health.js','routes/evaluations.js','routes/approvals.js','routes/exports.js','services/runtime-store.js','services/email-service.js','services/workflow-service.js','services/pdf-service.js','services/excel-service.js','templates/approval-email.js','templates/completion-email.js'])new Function(fs.readFileSync(f,'utf8'));console.log('Module syntax checks passed');
+const fs = require('fs');
+const path = require('path');
+
+const files = fs.readdirSync(path.join(__dirname, 'api')).filter((file) => file.endsWith('.js')).map((file) => path.join(__dirname, 'api', file));
+for (const file of files) new Function(fs.readFileSync(file, 'utf8'));
+console.log(`Module syntax checks passed (${files.length} API file${files.length === 1 ? '' : 's'})`);
