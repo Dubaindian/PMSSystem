@@ -1,23 +1,21 @@
-# PMS Vercel Run Fix
+# Modular PMS Application Skeleton
 
-This version removes the native `better-sqlite3` dependency and removes the deprecated `builds` configuration that appeared in the Vercel build warnings.
+Node.js 24 Vercel project with separate API routes, services, middleware, templates, tests, CSS and browser JavaScript.
 
-## Replace the repository
+## Structure
 
-1. Extract this ZIP.
-2. Replace all existing GitHub repository files with the extracted files.
-3. Commit and push.
-4. In Vercel, redeploy without using the old build cache.
-5. Keep Framework Preset as **Other**. Do not specify a custom Build Command or Output Directory.
+- `api/index.js` application composition
+- `routes/` health, evaluations, approvals and exports
+- `services/` storage, workflow, email, PDF and Excel services
+- `templates/` email templates
+- `middleware/` validation and error handling
+- `public/` pages, CSS and browser JavaScript
+- `tests/` Node test suite
 
-## Environment variables
+## Vercel
 
-Set `BASE_URL`, `AZURE_TENANT_ID`, `AZURE_CLIENT_ID`, `AZURE_CLIENT_SECRET`, and `MAIL_SENDER` in Vercel.
+Framework Preset: Other. Leave Build Command and Output Directory blank. Set `BASE_URL`, `AZURE_TENANT_ID`, `AZURE_CLIENT_ID`, `AZURE_CLIENT_SECRET`, and `MAIL_SENDER`.
 
-## Test
+## Important
 
-Open `/api/health`. The response should show `ok: true` and `nativeSqlite: false`.
-
-## Storage warning
-
-This package is designed to build and start on Vercel without native SQLite. It uses Vercel's temporary writable directory. Temporary records are not guaranteed to persist between function instances. For durable production approvals, connect the application to a hosted database and object storage.
+`runtime-store.js` is intentionally isolated so it can be replaced by PostgreSQL. It currently uses temporary storage and is not durable.
